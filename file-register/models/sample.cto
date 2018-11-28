@@ -1,0 +1,60 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Sample business network definition.
+ */
+namespace org.example.basic
+
+asset FileAsset identified by fileId {
+  o String fileId
+ // --> SampleParticipant owner
+  o String hashValue  
+}
+
+participant AgentParticipant identified by participantId {
+  o String participantId
+  o String firstName
+  o String lastName
+}
+
+participant CustomParticipant identified by participantId {
+  o String participantId
+  o String firstName
+  o String lastName
+}
+
+transaction RegisterFileTransaction {
+  //--> FileAsset asset
+  o String fileId optional //system should generate it - here for testing
+  o String fileHash //client provides from file
+}
+
+@returns(String)
+transaction ValidateFileTransaction {
+ // --> FileAsset asset
+  o String fileId // used to get filehash from ledger
+  o String fileHash//client provides from file
+}
+
+event FileRegisterEvent {
+  o String fileId
+  o String hashValue
+}
+
+event FileValidateEvent {
+  o String fileId
+  o Boolean result
+}
+
